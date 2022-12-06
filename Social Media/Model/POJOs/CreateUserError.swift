@@ -8,14 +8,11 @@
 import Foundation
 
 
-struct CreateUserError : Codable
-{
+struct CreateUserError : Codable {
     let data : ErrorData
 }
 
-struct ErrorData : Codable
-{
-    
+struct ErrorData : Codable {
     let firstName : String?
     let lastName : String?
     let email : String?

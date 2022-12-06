@@ -7,63 +7,53 @@
 
 import Foundation
 
-
 class PostViewModel {
+    let apiService: ApiService
     
-    let apiService : ApiService
+    // var bindPostFromVMToVC :  ()->() = {}
+    var bindErrorFromVMToVC: ()->() = {}
+    var bindStateFromVMToVC: ()->() = {}
+    var bindCountFromVMToVC: ()->() = {}
     
-   // var bindPostFromVMToVC :  ()->() = {}
-    var bindErrorFromVMToVC : ()->() = {}
-    var bindStateFromVMToVC : ()->() = {}
-    var bindCountFromVMToVC : ()->() = {}
-    
-    var postCount : Int!{
-        didSet{
+    var postCount: Int! {
+        didSet {
             bindCountFromVMToVC()
         }
     }
     
-    var postModel : Post!
+    var postModel: Post!
     
-    var errorMessage : String!{
-        didSet{
+    var errorMessage: String! {
+        didSet {
             bindErrorFromVMToVC()
         }
     }
     
-    var responseStatus : Bool!{
-        didSet
-        {
+    var responseStatus: Bool! {
+        didSet {
             bindStateFromVMToVC()
         }
     }
     
-    init(){
+    init() {
         apiService = ApiService()
         fetchAllPosts()
     }
     
-    func getPost(at indexPath: IndexPath) -> PostData?
-    {
+    func getPost(at indexPath: IndexPath) -> PostData? {
         return postModel.data[indexPath.row]
     }
     
-   
-    
-   func fetchAllPosts()
-    {
-        apiService.getAllPosts { post , error , status in
+    func fetchAllPosts() {
+        apiService.getAllPosts { post, error, status in
             
             self.responseStatus = status
             if let allPosts = post {
-              self.postModel = allPosts
+                self.postModel = allPosts
                 self.postCount = allPosts.data.count
-            }else
-            {
+            } else {
                 self.errorMessage = error?.localizedDescription
             }
-            
         }
     }
-    
 }

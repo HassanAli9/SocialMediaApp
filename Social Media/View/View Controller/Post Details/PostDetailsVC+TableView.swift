@@ -15,7 +15,7 @@ extension PostDetailsVC : UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CommentTVC.identifire) as! CommentTVC
+        let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.identifier) as! CommentCell
         commentNumLabel.text = String(count!)
         if let comment = commentViewModel.getComment(at: indexPath){
             

@@ -8,21 +8,19 @@
 import UIKit
 
 class HomeVC: UIViewController {
-    
     // MARK: OUTLETS
-    @IBOutlet weak var tableView: UITableView!
+
+    @IBOutlet var tableView: UITableView!
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    let viewModel : PostViewModel = PostViewModel()
-    var count : Int?
+    let viewModel: PostViewModel = .init()
+    var count: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        tableView.register(PostTVC.nib(), forCellReuseIdentifier: PostTVC.identifire)
-        
+        tableView.register(PostCell.nib, forCellReuseIdentifier: PostCell.identifier)
         
         tableView.alpha = 0.0
         viewModel.bindErrorFromVMToVC = onFailUpdateView
@@ -30,47 +28,35 @@ class HomeVC: UIViewController {
         viewModel.bindCountFromVMToVC = gotCountUpdateView
         
         NotificationCenter.default.addObserver(self, selector: #selector(ownerTapped), name: NSNotification.Name("ownerSVTapped"), object: nil)
-        
     }
     
-    func gotCountUpdateView(){
+    func gotCountUpdateView() {
         count = viewModel.postCount
         tableView.reloadData()
     }
    
-    
-    func onFailUpdateView()
-    {
-       showErrorAlert(message: viewModel.errorMessage)
+    func onFailUpdateView() {
+        showErrorAlert(message: viewModel.errorMessage)
     }
     
-    func onStateStopIndicator()
-    {
+    func onStateStopIndicator() {
         if viewModel.responseStatus {
             activityIndicator.stopAnimating()
             tableView.alpha = 1.0
         }
     }
     
-    @objc func ownerTapped(notfication : Notification)
-    {
-        if  let cell =  notfication.userInfo?["cell"] as? PostTVC {
-            guard  let indexPath =     tableView.indexPath(for: cell) else {return}
+    @objc func ownerTapped(notification: Notification) {
+        if let cell = notification.userInfo?["cell"] as? PostCell {
+            guard let indexPath = tableView.indexPath(for: cell) else { return }
             
-            guard let id =   viewModel.getPost(at: indexPath)?.owner.id else {return}
+            guard let id = viewModel.getPost(at: indexPath)?.owner.id else { return }
 
             let userProfileVC = storyboard?.instantiateViewController(withIdentifier: "UserProfileVC") as! UserProfileVC
             print(id)
             userProfileVC.id = id
             
             present(userProfileVC, animated: true, completion: nil)
-        
-        
         }
-     
-        
     }
-    
-    
 }
-

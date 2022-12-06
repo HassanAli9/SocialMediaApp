@@ -18,7 +18,7 @@ extension HomeVC : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTVC.identifire) as? PostTVC else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.identifier) as? PostCell else {return UITableViewCell()}
         
         if let currentPost = viewModel.getPost(at: indexPath) {
             

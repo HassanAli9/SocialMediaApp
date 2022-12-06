@@ -6,21 +6,13 @@
 //
 
 import Foundation
-import UIKit
-extension UIImageView
-{
-    func setImg(url : String)
-    {
-        if let urlPostImg = URL(string: url)
-        {
-            let data = try! Data(contentsOf: urlPostImg)
-            self.image = UIImage(data: data)
-        }
+import Kingfisher
+extension UIImageView {
+    func setImg(url: String) {
+        self.kf.setImage(with: URL(string: url)!)
     }
-    
-    func circuleImage()
-    {
+
+    func circleImage() {
         self.layer.cornerRadius = self.frame.height / 2
     }
 }
-

@@ -27,7 +27,7 @@ class PostDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(CommentTVC.nib(), forCellReuseIdentifier: CommentTVC.identifire)
+        tableView.register(CommentCell.nib(), forCellReuseIdentifier: CommentCell.identifier)
     
         displayPost()
 
@@ -70,7 +70,7 @@ class PostDetailsVC: UIViewController {
         if let post = postViewModel.getPost(at: indexPath){
             postId = post.id
         profileImg.setImg(url: post.owner.picture!)
-        profileImg.circuleImage()
+        profileImg.circleImage()
         postImg.setImg(url: post.image)
         userNameLabel.text = post.owner.firstName + " " + post.owner.lastName
         postDetailsLabel.text = post.text

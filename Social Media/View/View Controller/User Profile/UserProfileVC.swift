@@ -33,7 +33,7 @@ class UserProfileVC: UIViewController {
     {
         
         userImg.setImg(url: ownerVm.owner.picture!)
-        userImg.circuleImage()
+        userImg.circleImage()
         userNameLabel.text = ownerVm.owner.firstName + " " + ownerVm.owner.lastName
         emailLabel.text     = ownerVm.owner.email
         phoneLabel.text = ownerVm.owner.phone

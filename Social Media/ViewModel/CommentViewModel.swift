@@ -7,65 +7,52 @@
 
 import Foundation
 
-
-class CommentViewModel{
+class CommentViewModel {
+    var apiService: ApiService
     
-    var apiService:ApiService
-    
-    var bindStateFromVMToVC : ()->() = {}
-    var bindErrorFromVMToVC : ()->() = {}
-    var bindCountFromVMToVC : ()->() = {}
+    var bindStateFromVMToVC: ()->() = {}
+    var bindErrorFromVMToVC: ()->() = {}
+    var bindCountFromVMToVC: ()->() = {}
 
-    var comment : Comment!
-    var state:Bool!{
-        didSet
-        {
+    var comment: Comment!
+    var state: Bool! {
+        didSet {
             bindStateFromVMToVC()
         }
     }
     
-    var errorMessage : String!{
-        didSet{
+    var errorMessage: String! {
+        didSet {
             bindErrorFromVMToVC()
         }
     }
     
-    var count : Int!{
-        didSet
-        {
+    var count: Int! {
+        didSet {
             bindCountFromVMToVC()
         }
     }
     
-
-    init(postID:String)
-    {
+    init(postID: String) {
         apiService = ApiService()
         fetchComments(postID: postID)
     }
     
-    func getComment(at indexPath:IndexPath) -> Comments?
-    {
+    func getComment(at indexPath: IndexPath)->Comments? {
         return comment.data[indexPath.row]
     }
     
-    
-    func fetchComments(postID:String)
-    {
+    func fetchComments(postID: String) {
         apiService.getCommentsForPost(postID: postID) { comment, error, state in
             
             self.state = state
-            if let comments = comment
-            {
+            if let comments = comment {
                 self.comment = comments
                 self.count = comments.data.count
-            }else
-            {
+            } else {
                 self.errorMessage = error?.localizedDescription
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "")
             }
-            
         }
     }
-    
 }
